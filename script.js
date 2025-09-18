@@ -20,6 +20,11 @@ function getRandomNr() {
   return Math.floor(Math.random() * 20) + 1
 }
 
+function resetAndFocusInput() {
+  numberInput.value = ""
+  numberInput.focus()
+}
+
 function compareNumbers(input) {
   const userNr = parseInt(input.value)
 
@@ -27,7 +32,7 @@ function compareNumbers(input) {
     return
   } else if (!userNr || userNr < 1 || userNr > 20) {
     window.alert("Please pick a number between 1 and 20.")
-    numberInput.value = ""
+    resetAndFocusInput()
     return
   } else if (userNr === randomNr) {
     messageDisplay.textContent = "You are correct! 🎉"
@@ -55,8 +60,7 @@ function reset() {
   randomNr = getRandomNr()
   score = 20
   scoreDisplay.innerText = 20
-  numberInput.value = ""
-  numberInput.focus()
+  resetAndFocusInput()
   messageDisplay.textContent = "Start guessing..."
   secretNr.innerText = "?"
   secretNr.style.width = "15rem"
