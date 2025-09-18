@@ -14,6 +14,7 @@ let score = 20
 let highScore = 0
 let randomNr = getRandomNr()
 let isGameActive = true
+numberInput.focus()
 
 function getRandomNr() {
   return Math.floor(Math.random() * 20) + 1
@@ -21,29 +22,25 @@ function getRandomNr() {
 
 function compareNumbers(input) {
   const userNr = parseInt(input.value)
-  
-  if (!isGameActive) return
-  
-  if (!userNr || userNr < 1 || userNr > 20) {
+
+  if (!isGameActive) {
+    return
+  } else if (!userNr || userNr < 1 || userNr > 20) {
     window.alert("Please pick a number between 1 and 20.")
     numberInput.value = ""
     return
-  }
-  
-  if (userNr === randomNr) {
+  } else if (userNr === randomNr) {
     messageDisplay.textContent = "You are correct! 🎉"
     secretNr.innerText = randomNr
     body.style.backgroundColor = "green"
+    secretNr.style.width = "30rem"
     isGameActive = false
     if (score > highScore) {
       highScoreDisplay.innerText = score
       highScore = score
-    } 
-  } else if (userNr < randomNr) {
-    messageDisplay.textContent = "Too low. 👇"
-    score--
-  } else if (userNr > randomNr) {
-    messageDisplay.textContent = "Too high. 👆"
+    }
+  } else {
+    messageDisplay.textContent = userNr < randomNr ? "Too low. 👇" : "Too high. 👆"
     score--
   }
   scoreDisplay.innerText = score
@@ -59,18 +56,22 @@ function reset() {
   score = 20
   scoreDisplay.innerText = 20
   numberInput.value = ""
+  numberInput.focus()
   messageDisplay.textContent = "Start guessing..."
   secretNr.innerText = "?"
+  secretNr.style.width = "15rem"
   body.style.backgroundColor = "#222"
   isGameActive = true
 }
 
 checkBtn.addEventListener("click", () => compareNumbers(numberInput))
+
 numberInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter' && isGameActive) {
     compareNumbers(numberInput);
   }
 })
+
 againBtn.addEventListener("click", reset)
 resetHsBtn.addEventListener("click", () => {
   highScore = 0
